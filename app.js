@@ -37,3 +37,15 @@ function atualizarValorTotal(){
     document.getElementById("desejos").textContent = "desejos (30%): R$" + desejos.toFixed(2)
 }
 
+function definirSalario(){
+    let salarioInput = document.getElementById("salario")
+    let valorSalario = parseFloat(salarioInput.value)
+
+    if (isNaN(valorSalario) || valorSalario <= 0){
+        alert("Informe um valor válido para o salário")
+        return
+    }
+    salario = valorSalario
+    salarioInput.value = ""
+    atualizarValorTotal()
+}
