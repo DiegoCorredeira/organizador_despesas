@@ -24,7 +24,8 @@ function adicionarDespesa(){
 }
 
 
-function atualizarTabelaDespesas(){
+
+function atualizarValorTotal(){
     let totalDespesas = despesas.reduce((total, despesas => total + despesas.value, 0))
     document.getElementById("totalDespesas").textContent = "Total de despesas: R$" + totalDespesas.toFixed(2)
 
