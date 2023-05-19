@@ -20,13 +20,14 @@ function adicionarDespesa(){
     
     despesaInput.value = ""
     valorDespesaInput.value = ""
+    atualizarValorTotal()
 
 }
 
 
 
 function atualizarValorTotal(){
-    let totalDespesas = despesas.reduce((total, despesas => total + despesas.value, 0))
+    let totalDespesas = despesas.reduce((total, despesas) => total + despesas.value, 0)
     document.getElementById("totalDespesas").textContent = "Total de despesas: R$" + totalDespesas.toFixed(2)
 
     let necessidades = salario * 0.5
