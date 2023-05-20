@@ -2,6 +2,10 @@ let despesas = []
 let salario = 0.0
 let poupanca = 0.0
 
+
+/*
+- Adicionar sistema de login com PHP para cada usuário ter seus gastos separados e salvos
+*/
 function adicionarDespesa(){
     let despesaInput = document.getElementById('nomeDespesa')
     let valorDespesaInput = document.getElementById('valorDespesa')
@@ -76,7 +80,17 @@ function atualizarTabelaDespesas(){
         btnRemover.onclick = function(){
             removerDespesa(index)
         }
+
+        let btnEditar =  document.createElement("button")
+        btnEditar.textContent = "Editar"
+        btnEditar.classList.add("btn-editar")
+        btnEditar.onclick = function(){
+            editarDespesa(index)
+        }
+
+
         colunaAcoes.appendChild(btnRemover)
+        colunaAcoes.appendChild(btnEditar)
         linha.appendChild(colunaNome)
         linha.appendChild(colunaValor)
         linha.appendChild(colunaAcoes)
@@ -99,3 +113,53 @@ function atualizarPoupanca(){
     poupanca = salario * 0.2 - totalDespesas
     document.getElementById("poupanca").textContent = "Poupança (20%)" + poupanca.toFixed(2)
 }
+
+function editarDespesa(index) {
+    indiceDespesa = index
+    let despesa = despesas[index]
+
+
+    let despesaInput = document.getElementById("nomeDespesa")
+    let valorDespesaInput = document.getElementById("valorDespesa")
+    despesaInput.value = despesa.nome
+    valorDespesaInput.value = despesa.valor
+
+    let btnAdicionar = document.getElementById("btnAdicionar")
+    btnAdicionar.textContent = 'Salvar'
+
+    btnAdicionar.removeEventListener("click", adicionarDespesa)
+
+    btnAdicionar.addEventListener("click", function () {
+        salvarDespesa(index)
+    })
+}
+
+function salvarDespesa(index) {
+    let despesaInput = document.getElementById("nomeDespesa")
+    let valorDespesaInput = document.getElementById("valorDespesa")
+    let nomeDespesa = despesaInput.value.trim()
+    let valorDespesa = parseFloat(valorDespesaInput.value)
+    
+    if (nomeDespesa === "" || isNaN(valorDespesa) || valorDespesa <= 0) {
+        alert('Informe um nome e um valor válidos para a despesa')
+        return
+    }
+    
+    despesas[index].nome = nomeDespesa
+    despesas[index].valor = valorDespesa
+
+    despesaInput.value = ''
+    valorDespesaInput.value = ''
+    btnAdicionar.textContent = 'Adicionar'
+
+    btnAdicionar.removeEventListener("click", salvarDespesa)
+    btnAdicionar.addEventListener("click", adicionarDespesa)
+
+
+    atualizarTabelaDespesas()
+    atualizarValorTotal()
+    atualizarPoupanca() 
+
+
+
+ }
